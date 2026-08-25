@@ -2,5 +2,17 @@
 
 #include "UnLua_TEST.h"
 #include "Modules/ModuleManager.h"
+#include "Ability/CharacterGameplayTags.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, UnLua_TEST, "UnLua_TEST" );
+class FUnLua_TESTGameModuleImpl : public FDefaultGameModuleImpl
+{
+public:
+	virtual void StartupModule() override;
+};
+
+void FUnLua_TESTGameModuleImpl::StartupModule()
+{
+	FCharacterGameplayTags::InitializeNativeTags();
+}
+
+IMPLEMENT_PRIMARY_GAME_MODULE( FUnLua_TESTGameModuleImpl, UnLua_TEST, "UnLua_TEST" );

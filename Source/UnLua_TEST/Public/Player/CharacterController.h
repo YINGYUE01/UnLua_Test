@@ -8,31 +8,50 @@
 
 class UInputMappingContext;
 class UInputAction;
-/**
- * 
- */
+struct FInputActionValue;
+
 UCLASS()
 class UNLUA_TEST_API ACharacterController : public APlayerController
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere,Category="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;
-	UPROPERTY(EditAnywhere,Category="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
-	UPROPERTY(EditAnywhere,Category="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> LookAction;
-	UPROPERTY(EditAnywhere,Category="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ShiftAction;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void Look(const struct FInputActionValue& InputActionValue);
-	UFUNCTION(BlueprintImplementableEvent)
-	void Jump(const struct FInputActionValue& InputActionValue);
-	UFUNCTION(BlueprintImplementableEvent)
-	void Move(const struct FInputActionValue& InputActionValue);
+	UPROPERTY(EditAnywhere, Category = "Input")
+	float SprintSpeed = 600.f;
+
+	/** 松开冲刺后，MaxWalkSpeed 过渡回走路速度所需时间（秒） */
+	UPROPERTY(EditAnywhere, Category = "Input", meta = (ClampMin = "0.01"))
+	float SprintStopDuration = 0.4f;
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
+
+	void Look(const FInputActionValue& InputActionValue);
+	void Move(const FInputActionValue& InputActionValue);
+	void JumpStarted(const FInputActionValue& InputActionValue);
+	void JumpCompleted(const FInputActionValue& InputActionValue);
+	void ShiftMoveStarted(const FInputActionValue& InputActionValue);
+	void ShiftMoveCompleted(const FInputActionValue& InputActionValue);
+
+	void UpdateSprintSpeedBlend(float DeltaSeconds);
 
 private:
-	virtual void BeginPlay() override;
-
+	float DefaultWalkSpeed = 0.f;
+	float SpeedBlendElapsed = 0.f;
+	float SpeedBlendStart = 0.f;
+	bool bIsSprinting = false;
+	bool bIsDeceleratingFromSprint = false;
 };
