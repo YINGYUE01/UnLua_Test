@@ -6,24 +6,37 @@
 #include "GameFramework/Character.h"
 #include "MyCharacter.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+class UGameplayEffect;
+
 UCLASS()
 class UNLUA_TEST_API AMyCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AMyCharacter();
+	virtual void PossessedBy(AController* NewController) override;
+	UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect);
+	void InitializeAttributes();
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere,Category="PrimaryAttribute")
+	TSubclassOf<UGameplayEffect> PrimaryAttributes;
+	UPROPERTY(EditAnywhere,Category="PrimalAttribute")
+	TSubclassOf<UGameplayEffect> SecondaryAttributes;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent>	AbilitySystemComponent;
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

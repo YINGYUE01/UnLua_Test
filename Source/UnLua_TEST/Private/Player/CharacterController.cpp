@@ -6,12 +6,12 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputActionValue.h"
+#include "Input/ULEnhancedInputComponent.h"
 
 void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
 	PrimaryActorTick.bCanEverTick = true;
-
 	UEnhancedInputLocalPlayerSubsystem* LocalSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	if (LocalSubsystem)
 	{
@@ -52,6 +52,18 @@ void ACharacterController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ACharacterController::ShiftMoveStarted);
 		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ACharacterController::ShiftMoveCompleted);
+	}
+
+	if (UULEnhancedInputComponent* ULInputComponent = Cast<UULEnhancedInputComponent>(EnhancedInputComponent))
+	{
+		if (InputConfig)
+		{
+			ULInputComponent->BindAbilityActions(InputConfig,
+				this,
+				&ACharacterController::AbilityInputTagPresses,
+				&ACharacterController::AbilityInputTagReleased,
+				&ACharacterController::AbilityInputTagHeld);
+		}
 	}
 }
 
@@ -167,7 +179,6 @@ void ACharacterController::UpdateSprintSpeedBlend(float DeltaSeconds)
 	{
 		return;
 	}
-
 	SpeedBlendElapsed += DeltaSeconds;
 	const float Duration = FMath::Max(SprintStopDuration, KINDA_SMALL_NUMBER);
 	const float Alpha = FMath::Clamp(SpeedBlendElapsed / Duration, 0.f, 1.f);
@@ -178,4 +189,20 @@ void ACharacterController::UpdateSprintSpeedBlend(float DeltaSeconds)
 		Movement->MaxWalkSpeed = DefaultWalkSpeed;
 		bIsDeceleratingFromSprint = false;
 	}
+}
+
+
+void ACharacterController::AbilityInputTagPresses(FGameplayTag InputTag)
+{
+	
+}
+
+void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	
+}
+
+void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	
 }

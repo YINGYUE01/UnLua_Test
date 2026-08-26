@@ -1,29 +1,56 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
 #include "UnLua_TEST/Public/MyCharacter.h"
-// Sets default values
+
+#include "Player/CharacterPlayerState.h"
+
 AMyCharacter::AMyCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
+void AMyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	ACharacterPlayerState* PS = Cast<ACharacterPlayerState>(GetController()->PlayerState);
+	if (PS)
+	{
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS,this);
+		AbilitySystemComponent = PS->GetAbilitySystemComponent();
+		AttributeSet = PS->GetAttribute();
+	}
+	InitializeAttributes();
+}
+
+void AMyCharacter::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect)
+{
+	if (IsValid(Effect) && IsValid(GetAbilitySystemComponent()))
+	{
+		FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+		ContextHandle.AddSourceObject(this);
+		FGameplayEffectSpecHandle EffectSpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(Effect,1,ContextHandle);
+		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*EffectSpecHandle.Data.Get(),GetAbilitySystemComponent());
+	}
+}
+
+void AMyCharacter::InitializeAttributes()
+{
+	ApplyEffectToSelf(PrimaryAttributes);
+	ApplyEffectToSelf(SecondaryAttributes);
+}
+
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

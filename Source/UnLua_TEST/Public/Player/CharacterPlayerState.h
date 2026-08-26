@@ -14,9 +14,9 @@ class UNLUA_TEST_API ACharacterPlayerState : public APlayerState, public IAbilit
 
 public:
 	ACharacterPlayerState();
-
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
+	UAttributeSet* GetAttribute()const {return AttributeSet;}
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UCharacterAbilitySystemComponent> AbilitySystemComponent;
 

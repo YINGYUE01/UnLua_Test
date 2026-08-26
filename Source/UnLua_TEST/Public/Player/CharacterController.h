@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
 #include "CharacterController.generated.h"
 
+class UInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -25,7 +27,10 @@ public:
 	TObjectPtr<UInputAction> JumpAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> ShiftAction;
-
+	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputConfig> InputConfig;
+	
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float SprintSpeed = 600.f;
 
@@ -49,9 +54,17 @@ protected:
 	void UpdateSprintSpeedBlend(float DeltaSeconds);
 
 private:
+
+	void AbilityInputTagPresses(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	
 	float DefaultWalkSpeed = 0.f;
 	float SpeedBlendElapsed = 0.f;
 	float SpeedBlendStart = 0.f;
 	bool bIsSprinting = false;
 	bool bIsDeceleratingFromSprint = false;
 };
+
+
+

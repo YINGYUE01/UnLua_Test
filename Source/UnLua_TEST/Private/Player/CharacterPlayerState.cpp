@@ -8,6 +8,7 @@ ACharacterPlayerState::ACharacterPlayerState()
 	AttributeSet = CreateDefaultSubobject<UCharacterAttributeSet>(TEXT("AttributeSet"));
 }
 
+
 UAbilitySystemComponent* ACharacterPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
