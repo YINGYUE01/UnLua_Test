@@ -27,9 +27,10 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere,Category="PrimaryAttribute")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
-	UPROPERTY(EditAnywhere,Category="PrimalAttribute")
+	UPROPERTY(EditAnywhere,Category="SecondaryAttribute")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
-
+	UPROPERTY(EditAnywhere,Category="VitalAttribute")
+	TSubclassOf<UGameplayEffect> VitalAttributes;
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent>	AbilitySystemComponent;
 	UPROPERTY()

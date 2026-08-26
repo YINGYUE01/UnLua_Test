@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "UnLua_TEST/Public/MyCharacter.h"
+#include "UnLua_TEST/Public/Character/MyCharacter.h"
 
 #include "Player/CharacterPlayerState.h"
 
