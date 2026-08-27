@@ -3,8 +3,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "Ability/CharacterAbilitySystemComponent.h"
-#include "Ability/CharacterAttributeSet.h"
+#include "AbilitySystem/CharacterAbilitySystemComponent.h"
+#include "AbilitySystem/CharacterAttributeSet.h"
 #include "CharacterPlayerState.generated.h"
 
 UCLASS()

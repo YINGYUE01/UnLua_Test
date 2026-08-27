@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "CharacterController.generated.h"
 
+class UCharacterAbilitySystemComponent;
 class UInputConfig;
 class UInputMappingContext;
 class UInputAction;
@@ -43,6 +44,10 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupInputComponent() override;
 	virtual void OnPossess(APawn* InPawn) override;
+
+	UPROPERTY()
+	TObjectPtr<UCharacterAbilitySystemComponent> ASC;
+	UCharacterAbilitySystemComponent* GetASC();
 
 	void Look(const FInputActionValue& InputActionValue);
 	void Move(const FInputActionValue& InputActionValue);

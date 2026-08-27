@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "MyCharacter.generated.h"
 
+class UGameplayAbility;
+class UMalGameplayAbility;
 class UAttributeSet;
 class UAbilitySystemComponent;
 class UGameplayEffect;
@@ -23,6 +25,7 @@ public:
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect);
 	void InitializeAttributes();
+	void InitializeAbilities();
 protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere,Category="PrimaryAttribute")
@@ -35,6 +38,9 @@ protected:
 	TObjectPtr<UAbilitySystemComponent>	AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+	
+	UPROPERTY(EditAnywhere,Category="Abilities")
+	TArray<TSubclassOf<UGameplayAbility> > StartupAbilities;
 
 public:	
 	virtual void Tick(float DeltaTime) override;

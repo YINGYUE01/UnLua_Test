@@ -2,7 +2,7 @@
 
 #include "UnLua_TEST.h"
 #include "Modules/ModuleManager.h"
-#include "Ability/CharacterGameplayTags.h"
+#include "AbilitySystem/CharacterGameplayTags.h"
 
 class FUnLua_TESTGameModuleImpl : public FDefaultGameModuleImpl
 {

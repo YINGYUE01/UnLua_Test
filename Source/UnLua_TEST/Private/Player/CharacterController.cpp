@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputActionValue.h"
+#include "AbilitySystem/CharacterAbilitySystemComponent.h"
+#include "Character/MyCharacter.h"
 #include "Input/ULEnhancedInputComponent.h"
 
 void ACharacterController::BeginPlay()
@@ -81,6 +83,16 @@ void ACharacterController::OnPossess(APawn* InPawn)
 		bIsDeceleratingFromSprint = false;
 		SpeedBlendElapsed = 0.f;
 	}
+}
+
+UCharacterAbilitySystemComponent* ACharacterController::GetASC()
+{
+	if (ASC==nullptr)
+	{
+		//TODO 更换为接口获取ASC
+		ASC = Cast<UCharacterAbilitySystemComponent>(Cast<AMyCharacter>(GetPawn())->GetAbilitySystemComponent());
+	}
+	return ASC;
 }
 
 void ACharacterController::Look(const FInputActionValue& InputActionValue)
@@ -194,15 +206,34 @@ void ACharacterController::UpdateSprintSpeedBlend(float DeltaSeconds)
 
 void ACharacterController::AbilityInputTagPresses(FGameplayTag InputTag)
 {
-	
+	if (HasAuthority() && InputTag.IsValid())
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputPressed(InputTag);
+		}
+	}
 }
 
 void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	
+	if (HasAuthority() && InputTag.IsValid())
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputReleased(InputTag);
+		}
+	}
 }
 
 void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (HasAuthority() && InputTag.IsValid())
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityInputHeld(InputTag);
+		}
+	}
 	
 }

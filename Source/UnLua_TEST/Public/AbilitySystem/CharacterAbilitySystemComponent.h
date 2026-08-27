@@ -11,4 +11,10 @@ class UNLUA_TEST_API UCharacterAbilitySystemComponent : public UAbilitySystemCom
 
 public:
 	UCharacterAbilitySystemComponent();
+
+	void AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
+
+	void AbilityInputPressed(FGameplayTag InputTag);
+	void AbilityInputReleased(FGameplayTag InputTag);
+	void AbilityInputHeld(FGameplayTag InputTag);
 };

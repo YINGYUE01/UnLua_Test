@@ -20,6 +20,7 @@ void AMyCharacter::PossessedBy(AController* NewController)
 		AttributeSet = PS->GetAttribute();
 	}
 	InitializeAttributes();
+	InitializeAbilities();
 }
 
 void AMyCharacter::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect)
@@ -37,6 +38,15 @@ void AMyCharacter::InitializeAttributes()
 {
 	ApplyEffectToSelf(PrimaryAttributes);
 	ApplyEffectToSelf(SecondaryAttributes);
+}
+
+void AMyCharacter::InitializeAbilities()
+{
+	if (IsValid(AbilitySystemComponent))
+	{
+		UCharacterAbilitySystemComponent* MalASC = Cast<UCharacterAbilitySystemComponent>(AbilitySystemComponent);
+		MalASC->AddCharacterAbilities(StartupAbilities);	
+	}
 }
 
 void AMyCharacter::BeginPlay()
