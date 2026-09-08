@@ -35,15 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float SprintSpeed = 600.f;
 
-	/** 松开冲刺后，MaxWalkSpeed 过渡回走路速度所需时间（秒） */
-	UPROPERTY(EditAnywhere, Category = "Input", meta = (ClampMin = "0.01"))
-	float SprintStopDuration = 0.4f;
-
 protected:
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupInputComponent() override;
-	virtual void OnPossess(APawn* InPawn) override;
 
 	UPROPERTY()
 	TObjectPtr<UCharacterAbilitySystemComponent> ASC;
@@ -55,8 +49,7 @@ protected:
 	void JumpCompleted(const FInputActionValue& InputActionValue);
 	void ShiftMoveStarted(const FInputActionValue& InputActionValue);
 	void ShiftMoveCompleted(const FInputActionValue& InputActionValue);
-
-	void UpdateSprintSpeedBlend(float DeltaSeconds);
+	void SetSprinting(bool bNewIsSprinting);
 
 private:
 
@@ -64,12 +57,4 @@ private:
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 	
-	float DefaultWalkSpeed = 0.f;
-	float SpeedBlendElapsed = 0.f;
-	float SpeedBlendStart = 0.f;
-	bool bIsSprinting = false;
-	bool bIsDeceleratingFromSprint = false;
 };
-
-
-
