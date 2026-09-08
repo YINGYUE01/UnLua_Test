@@ -12,8 +12,6 @@ class UNLUA_TEST_API USprintCharacterMovementComponent : public UCharacterMoveme
 	GENERATED_BODY()
 
 public:
-	USprintCharacterMovementComponent();
-
 	UPROPERTY(EditAnywhere, Category = "Movement", meta = (ClampMin = "0.0"))
 	float SprintSpeed = 600.f;
 
@@ -26,5 +24,5 @@ public:
 private:
 	friend class FSavedMove_Sprint;
 
-	uint8 bWantsToSprint : 1;
+	uint8 bWantsToSprint : 1 = false;
 };

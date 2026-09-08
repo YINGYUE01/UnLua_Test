@@ -1,12 +1,8 @@
 #include "Movement/SprintCharacterMovementComponent.h"
 
-#include "GameFramework/Character.h"
-
 class FSavedMove_Sprint final : public FSavedMove_Character
 {
 public:
-	using Super = FSavedMove_Character;
-
 	uint8 bSavedWantsToSprint : 1;
 
 	virtual void Clear() override
@@ -48,8 +44,6 @@ public:
 class FNetworkPredictionData_Client_Sprint final : public FNetworkPredictionData_Client_Character
 {
 public:
-	using Super = FNetworkPredictionData_Client_Character;
-
 	explicit FNetworkPredictionData_Client_Sprint(const UCharacterMovementComponent& ClientMovement)
 		: Super(ClientMovement)
 	{
@@ -60,11 +54,6 @@ public:
 		return FSavedMovePtr(new FSavedMove_Sprint());
 	}
 };
-
-USprintCharacterMovementComponent::USprintCharacterMovementComponent()
-	: bWantsToSprint(false)
-{
-}
 
 void USprintCharacterMovementComponent::SetWantsToSprint(bool bNewWantsToSprint)
 {
