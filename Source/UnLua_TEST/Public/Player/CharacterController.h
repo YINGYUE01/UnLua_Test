@@ -55,8 +55,12 @@ protected:
 	void JumpCompleted(const FInputActionValue& InputActionValue);
 	void ShiftMoveStarted(const FInputActionValue& InputActionValue);
 	void ShiftMoveCompleted(const FInputActionValue& InputActionValue);
+	/** Keep the server's movement simulation in sync with the owning client's sprint prediction. */
+	UFUNCTION(Server, Reliable)
+	void ServerSetSprinting(bool bNewIsSprinting);
 
 	void UpdateSprintSpeedBlend(float DeltaSeconds);
+	void SetSprinting(bool bNewIsSprinting);
 
 private:
 
@@ -70,6 +74,5 @@ private:
 	bool bIsSprinting = false;
 	bool bIsDeceleratingFromSprint = false;
 };
-
 
 

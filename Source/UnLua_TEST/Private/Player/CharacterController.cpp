@@ -140,24 +140,32 @@ void ACharacterController::JumpCompleted(const FInputActionValue& InputActionVal
 void ACharacterController::ShiftMoveStarted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
-	ACharacter* MyCharacter = GetPawn<ACharacter>();
-	if (!MyCharacter)
-	{
-		return;
-	}
+	SetSprinting(true);
 
-	if (UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement())
+	if (!HasAuthority())
 	{
-		bIsSprinting = true;
-		bIsDeceleratingFromSprint = false;
-		SpeedBlendElapsed = 0.f;
-		Movement->MaxWalkSpeed = SprintSpeed;
+		ServerSetSprinting(true);
 	}
 }
 
 void ACharacterController::ShiftMoveCompleted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
+	SetSprinting(false);
+
+	if (!HasAuthority())
+	{
+		ServerSetSprinting(false);
+	}
+}
+
+void ACharacterController::ServerSetSprinting_Implementation(bool bNewIsSprinting)
+{
+	SetSprinting(bNewIsSprinting);
+}
+
+void ACharacterController::SetSprinting(bool bNewIsSprinting)
+{
 	ACharacter* MyCharacter = GetPawn<ACharacter>();
 	if (!MyCharacter)
 	{
@@ -166,10 +174,18 @@ void ACharacterController::ShiftMoveCompleted(const FInputActionValue& InputActi
 
 	if (UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement())
 	{
-		bIsSprinting = false;
-		bIsDeceleratingFromSprint = true;
+		bIsSprinting = bNewIsSprinting;
+		bIsDeceleratingFromSprint = !bNewIsSprinting;
 		SpeedBlendElapsed = 0.f;
-		SpeedBlendStart = Movement->MaxWalkSpeed;
+
+		if (bNewIsSprinting)
+		{
+			Movement->MaxWalkSpeed = SprintSpeed;
+		}
+		else
+		{
+			SpeedBlendStart = Movement->MaxWalkSpeed;
+		}
 	}
 }
 
