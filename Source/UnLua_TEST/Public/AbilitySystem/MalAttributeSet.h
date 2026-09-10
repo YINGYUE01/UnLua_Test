@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
-#include "CharacterAttributeSet.generated.h"
+#include "MalAttributeSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
 	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName,PropertyName)\
@@ -12,12 +12,12 @@
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 		
 UCLASS()
-class UNLUA_TEST_API UCharacterAttributeSet : public UAttributeSet
+class UNLUA_TEST_API UMalAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UCharacterAttributeSet();
+	UMalAttributeSet();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
@@ -94,25 +94,25 @@ public:
 	UFUNCTION()
 	void OnRep_Vigor(const FGameplayAttributeData& OldVigor);
 
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, Health)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxHealth)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, MaxHealth)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Stamina)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, Stamina)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxStamina)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, MaxStamina)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Mana)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, Mana)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxMana)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, MaxMana)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, AttackPower)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, AttackPower)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Defense)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, Defense)
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MoveSpeed)
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet, MoveSpeed)
 
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet,Strength);
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet,Strength);
 	
-	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet,Vigor);
+	ATTRIBUTE_ACCESSORS(UMalAttributeSet,Vigor);
 };

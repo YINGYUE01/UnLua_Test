@@ -1,17 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Player/CharacterController.h"
+#include "Player/MalController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "InputActionValue.h"
-#include "AbilitySystem/CharacterAbilitySystemComponent.h"
-#include "Character/MyCharacter.h"
+#include "AbilitySystem/MalAbilitySystemComponent.h"
+#include "Character/CharacterBase.h"
 #include "Character/SprintCharacterMovementComponent.h"
 #include "Input/ULEnhancedInputComponent.h"
 
-void ACharacterController::BeginPlay()
+void AMalController::BeginPlay()
 {
 	Super::BeginPlay();
 	PrimaryActorTick.bCanEverTick = true;
@@ -22,7 +22,7 @@ void ACharacterController::BeginPlay()
 	}
 }
 
-void ACharacterController::SetupInputComponent()
+void AMalController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
@@ -34,21 +34,21 @@ void ACharacterController::SetupInputComponent()
 
 	if (MoveAction)
 	{
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACharacterController::Move);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMalController::Move);
 	}
 	if (LookAction)
 	{
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACharacterController::Look);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMalController::Look);
 	}
 	if (JumpAction)
 	{
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacterController::JumpStarted);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacterController::JumpCompleted);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AMalController::JumpStarted);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AMalController::JumpCompleted);
 	}
 	if (ShiftAction)
 	{
-		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ACharacterController::ShiftMoveStarted);
-		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ACharacterController::ShiftMoveCompleted);
+		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AMalController::ShiftMoveStarted);
+		EnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AMalController::ShiftMoveCompleted);
 	}
 
 	if (UULEnhancedInputComponent* ULInputComponent = Cast<UULEnhancedInputComponent>(EnhancedInputComponent))
@@ -57,37 +57,37 @@ void ACharacterController::SetupInputComponent()
 		{
 			ULInputComponent->BindAbilityActions(InputConfig,
 				this,
-				&ACharacterController::AbilityInputTagPresses,
-				&ACharacterController::AbilityInputTagReleased,
-				&ACharacterController::AbilityInputTagHeld);
+				&AMalController::AbilityInputTagPresses,
+				&AMalController::AbilityInputTagReleased,
+				&AMalController::AbilityInputTagHeld);
 		}
 	}
 }
 
-void ACharacterController::OnPossess(APawn* InPawn)
+void AMalController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
 }
 
-UCharacterAbilitySystemComponent* ACharacterController::GetASC()
+UMalAbilitySystemComponent* AMalController::GetASC()
 {
 	if (ASC==nullptr)
 	{
 		//TODO 更换为接口获取ASC
-		ASC = Cast<UCharacterAbilitySystemComponent>(Cast<AMyCharacter>(GetPawn())->GetAbilitySystemComponent());
+		ASC = Cast<UMalAbilitySystemComponent>(Cast<ACharacterBase>(GetPawn())->GetAbilitySystemComponent());
 	}
 	return ASC;
 }
 
-void ACharacterController::Look(const FInputActionValue& InputActionValue)
+void AMalController::Look(const FInputActionValue& InputActionValue)
 {
 	const FVector2D LookAxis = InputActionValue.Get<FVector2D>();
 	AddYawInput(LookAxis.X);
 	AddPitchInput(LookAxis.Y);
 }
 
-void ACharacterController::Move(const FInputActionValue& InputActionValue)
+void AMalController::Move(const FInputActionValue& InputActionValue)
 {
 	APawn* ControlledPawn = GetPawn();
 	if (!ControlledPawn)
@@ -104,7 +104,7 @@ void ACharacterController::Move(const FInputActionValue& InputActionValue)
 	ControlledPawn->AddMovementInput(RightDirection, InputAxis.X);
 }
 
-void ACharacterController::JumpStarted(const FInputActionValue& InputActionValue)
+void AMalController::JumpStarted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
 	if (ACharacter* MyCharacter = GetPawn<ACharacter>())
@@ -113,7 +113,7 @@ void ACharacterController::JumpStarted(const FInputActionValue& InputActionValue
 	}
 }
 
-void ACharacterController::JumpCompleted(const FInputActionValue& InputActionValue)
+void AMalController::JumpCompleted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
 	if (ACharacter* MyCharacter = GetPawn<ACharacter>())
@@ -122,7 +122,7 @@ void ACharacterController::JumpCompleted(const FInputActionValue& InputActionVal
 	}
 }
 
-void ACharacterController::ShiftMoveStarted(const FInputActionValue& InputActionValue)
+void AMalController::ShiftMoveStarted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
 	ACharacter* MyCharacter = GetPawn<ACharacter>();
@@ -137,7 +137,7 @@ void ACharacterController::ShiftMoveStarted(const FInputActionValue& InputAction
 	}
 }
 
-void ACharacterController::ShiftMoveCompleted(const FInputActionValue& InputActionValue)
+void AMalController::ShiftMoveCompleted(const FInputActionValue& InputActionValue)
 {
 	(void)InputActionValue;
 	ACharacter* MyCharacter = GetPawn<ACharacter>();
@@ -153,7 +153,7 @@ void ACharacterController::ShiftMoveCompleted(const FInputActionValue& InputActi
 }
 
 
-void ACharacterController::AbilityInputTagPresses(FGameplayTag InputTag)
+void AMalController::AbilityInputTagPresses(FGameplayTag InputTag)
 {
 	if (HasAuthority() && InputTag.IsValid())
 	{
@@ -164,7 +164,7 @@ void ACharacterController::AbilityInputTagPresses(FGameplayTag InputTag)
 	}
 }
 
-void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
+void AMalController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (HasAuthority() && InputTag.IsValid())
 	{
@@ -175,7 +175,7 @@ void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
 	}
 }
 
-void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
+void AMalController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (HasAuthority() && InputTag.IsValid())
 	{

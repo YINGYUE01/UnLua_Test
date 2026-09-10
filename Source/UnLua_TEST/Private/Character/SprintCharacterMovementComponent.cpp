@@ -66,9 +66,11 @@ public:
 class FNetworkPredictionData_Client_Sprint final : public FNetworkPredictionData_Client_Character
 {
 public:
-	explicit FNetworkPredictionData_Client_Sprint(const UCharacterMovementComponent& ClientMovement)
-		: Super(ClientMovement)
+	typedef FNetworkPredictionData_Client_Character Super;
+	FNetworkPredictionData_Client_Sprint(const UCharacterMovementComponent& ClientMovement)
+	: Super(ClientMovement)
 	{
+		
 	}
 
 	virtual FSavedMovePtr AllocateNewMove() override

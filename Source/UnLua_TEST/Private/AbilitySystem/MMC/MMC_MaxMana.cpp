@@ -3,11 +3,11 @@
 
 #include "AbilitySystem/MMC/MMC_MaxMana.h"
 
-#include "AbilitySystem/CharacterAttributeSet.h"
+#include "AbilitySystem/MalAttributeSet.h"
 
 UMMC_MaxMana::UMMC_MaxMana()
 {
-	VigorCapture.AttributeToCapture = UCharacterAttributeSet::GetVigorAttribute();
+	VigorCapture.AttributeToCapture = UMalAttributeSet::GetVigorAttribute();
 	VigorCapture.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 	VigorCapture.bSnapshot = false;
 	RelevantAttributesToCapture.Add(VigorCapture);

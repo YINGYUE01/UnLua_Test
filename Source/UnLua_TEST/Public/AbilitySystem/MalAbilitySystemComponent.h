@@ -2,15 +2,15 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "CharacterAbilitySystemComponent.generated.h"
+#include "MalAbilitySystemComponent.generated.h"
 
 UCLASS()
-class UNLUA_TEST_API UCharacterAbilitySystemComponent : public UAbilitySystemComponent
+class UNLUA_TEST_API UMalAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
 
 public:
-	UCharacterAbilitySystemComponent();
+	UMalAbilitySystemComponent();
 
 	void AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
 

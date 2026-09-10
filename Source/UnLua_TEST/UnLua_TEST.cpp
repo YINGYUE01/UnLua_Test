@@ -2,7 +2,7 @@
 
 #include "UnLua_TEST.h"
 #include "Modules/ModuleManager.h"
-#include "AbilitySystem/CharacterGameplayTags.h"
+#include "AbilitySystem/MalGameplayTags.h"
 
 class FUnLua_TESTGameModuleImpl : public FDefaultGameModuleImpl
 {
@@ -12,7 +12,7 @@ public:
 
 void FUnLua_TESTGameModuleImpl::StartupModule()
 {
-	FCharacterGameplayTags::InitializeNativeTags();
+	FMalGameplayTags::InitializeNativeTags();
 }
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FUnLua_TESTGameModuleImpl, UnLua_TEST, "UnLua_TEST" );

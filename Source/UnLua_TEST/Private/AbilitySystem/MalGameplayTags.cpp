@@ -1,15 +1,15 @@
-#include "AbilitySystem/CharacterGameplayTags.h"
+#include "AbilitySystem/MalGameplayTags.h"
 
 #include "GameplayTagsManager.h"
 
-FCharacterGameplayTags FCharacterGameplayTags::GameplayTags;
+FMalGameplayTags FMalGameplayTags::GameplayTags;
 
-const FCharacterGameplayTags& FCharacterGameplayTags::Get()
+const FMalGameplayTags& FMalGameplayTags::Get()
 {
 	return GameplayTags;
 }
 
-void FCharacterGameplayTags::InitializeNativeTags()
+void FMalGameplayTags::InitializeNativeTags()
 {
 	GameplayTags.Attribute_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attribute.Primary.Strength"),FString("Increase physical damage"));
 	GameplayTags.Attribute_Primary_Vigor = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attribute.Primary.Vigor"),FString("Increase Health"));

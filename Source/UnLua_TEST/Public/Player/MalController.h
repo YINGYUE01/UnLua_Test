@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
-#include "CharacterController.generated.h"
+#include "MalController.generated.h"
 
-class UCharacterAbilitySystemComponent;
+class UMalAbilitySystemComponent;
 class UInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
 UCLASS()
-class UNLUA_TEST_API ACharacterController : public APlayerController
+class UNLUA_TEST_API AMalController : public APlayerController
 {
 	GENERATED_BODY()
 public:
@@ -38,8 +38,8 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	UPROPERTY()
-	TObjectPtr<UCharacterAbilitySystemComponent> ASC;
-	UCharacterAbilitySystemComponent* GetASC();
+	TObjectPtr<UMalAbilitySystemComponent> ASC;
+	UMalAbilitySystemComponent* GetASC();
 
 	void Look(const FInputActionValue& InputActionValue);
 	void Move(const FInputActionValue& InputActionValue);

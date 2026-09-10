@@ -3,23 +3,23 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/CharacterAbilitySystemComponent.h"
-#include "AbilitySystem/CharacterAttributeSet.h"
-#include "CharacterPlayerState.generated.h"
+#include "AbilitySystem/MalAbilitySystemComponent.h"
+#include "AbilitySystem/MalAttributeSet.h"
+#include "MalPlayerState.generated.h"
 
 UCLASS()
-class UNLUA_TEST_API ACharacterPlayerState : public APlayerState, public IAbilitySystemInterface
+class UNLUA_TEST_API AMalPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-	ACharacterPlayerState();
+	AMalPlayerState();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttribute()const {return AttributeSet;}
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-	TObjectPtr<UCharacterAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UMalAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-	TObjectPtr<UCharacterAttributeSet> AttributeSet;
+	TObjectPtr<UMalAttributeSet> AttributeSet;
 };

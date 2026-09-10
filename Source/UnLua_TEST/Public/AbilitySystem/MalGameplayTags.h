@@ -3,10 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 
-class UNLUA_TEST_API FCharacterGameplayTags
+class UNLUA_TEST_API FMalGameplayTags
 {
 public:
-	static const FCharacterGameplayTags& Get();
+	static const FMalGameplayTags& Get();
 	static void InitializeNativeTags();
 	/*Attribute */
 	FGameplayTag Attribute_Primary_Strength;
@@ -19,5 +19,5 @@ public:
 	FGameplayTag Ability_Damage;
 	FGameplayTag Ability_Attack;
 private:
-	static FCharacterGameplayTags GameplayTags;
+	static FMalGameplayTags GameplayTags;
 };

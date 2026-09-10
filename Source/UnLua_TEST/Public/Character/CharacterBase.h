@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "MyCharacter.generated.h"
+#include "CharacterBase.generated.h"
 
 class UGameplayAbility;
 class UMalGameplayAbility;
@@ -13,12 +13,12 @@ class UAbilitySystemComponent;
 class UGameplayEffect;
 
 UCLASS()
-class UNLUA_TEST_API AMyCharacter : public ACharacter
+class UNLUA_TEST_API ACharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AMyCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	ACharacterBase(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	virtual void PossessedBy(AController* NewController) override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }

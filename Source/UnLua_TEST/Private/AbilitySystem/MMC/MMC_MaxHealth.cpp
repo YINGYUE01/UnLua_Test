@@ -3,11 +3,11 @@
 
 #include "AbilitySystem//MMC/MMC_MaxHealth.h"
 
-#include "AbilitySystem/CharacterAttributeSet.h"
+#include "AbilitySystem/MalAttributeSet.h"
 
 UMMC_MaxHealth::UMMC_MaxHealth()
 {
-	VigorCapture.AttributeToCapture = UCharacterAttributeSet::GetVigorAttribute();
+	VigorCapture.AttributeToCapture = UMalAttributeSet::GetVigorAttribute();
 	VigorCapture.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 	VigorCapture.bSnapshot = false;
 	RelevantAttributesToCapture.Add(VigorCapture);

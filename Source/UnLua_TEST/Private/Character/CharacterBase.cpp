@@ -1,20 +1,20 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "UnLua_TEST/Public/Character/MyCharacter.h"
+#include "UnLua_TEST/Public/Character/CharacterBase.h"
 
 #include "Character/SprintCharacterMovementComponent.h"
-#include "Player/CharacterPlayerState.h"
+#include "Player/MalPlayerState.h"
 
-AMyCharacter::AMyCharacter(const FObjectInitializer& ObjectInitializer)
+ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<USprintCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-void AMyCharacter::PossessedBy(AController* NewController)
+void ACharacterBase::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	ACharacterPlayerState* PS = Cast<ACharacterPlayerState>(GetController()->PlayerState);
+	AMalPlayerState* PS = Cast<AMalPlayerState>(GetController()->PlayerState);
 	if (PS)
 	{
 		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS,this);
@@ -25,7 +25,7 @@ void AMyCharacter::PossessedBy(AController* NewController)
 	InitializeAbilities();
 }
 
-void AMyCharacter::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect)
+void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect)
 {
 	if (IsValid(Effect) && IsValid(GetAbilitySystemComponent()))
 	{
@@ -36,34 +36,34 @@ void AMyCharacter::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Effect)
 	}
 }
 
-void AMyCharacter::InitializeAttributes()
+void ACharacterBase::InitializeAttributes()
 {
 	ApplyEffectToSelf(PrimaryAttributes);
 	ApplyEffectToSelf(SecondaryAttributes);
 }
 
-void AMyCharacter::InitializeAbilities()
+void ACharacterBase::InitializeAbilities()
 {
 	if (IsValid(AbilitySystemComponent))
 	{
-		UCharacterAbilitySystemComponent* MalASC = Cast<UCharacterAbilitySystemComponent>(AbilitySystemComponent);
+		UMalAbilitySystemComponent* MalASC = Cast<UMalAbilitySystemComponent>(AbilitySystemComponent);
 		MalASC->AddCharacterAbilities(StartupAbilities);	
 	}
 }
 
-void AMyCharacter::BeginPlay()
+void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void AMyCharacter::Tick(float DeltaTime)
+void ACharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }

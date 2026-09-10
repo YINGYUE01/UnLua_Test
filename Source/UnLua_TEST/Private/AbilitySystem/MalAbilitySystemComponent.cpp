@@ -1,13 +1,13 @@
-#include "AbilitySystem/CharacterAbilitySystemComponent.h"
+#include "AbilitySystem/MalAbilitySystemComponent.h"
 
 #include "AbilitySystem/Ability/MalGameplayAbility.h"
 
-UCharacterAbilitySystemComponent::UCharacterAbilitySystemComponent()
+UMalAbilitySystemComponent::UMalAbilitySystemComponent()
 {
 	SetIsReplicatedByDefault(true);
 }
 
-void UCharacterAbilitySystemComponent::AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities)
+void UMalAbilitySystemComponent::AddCharacterAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities)
 {
 	for (TSubclassOf<UGameplayAbility> Ability : Abilities)
 	{
@@ -21,7 +21,7 @@ void UCharacterAbilitySystemComponent::AddCharacterAbilities(TArray<TSubclassOf<
 	}
 }
 
-void UCharacterAbilitySystemComponent::AbilityInputPressed(FGameplayTag InputTag)
+void UMalAbilitySystemComponent::AbilityInputPressed(FGameplayTag InputTag)
 {
 	for (auto& AbilitySpec : GetActivatableAbilities())
 	{
@@ -33,7 +33,7 @@ void UCharacterAbilitySystemComponent::AbilityInputPressed(FGameplayTag InputTag
 }
 
 
-void UCharacterAbilitySystemComponent::AbilityInputReleased(FGameplayTag InputTag)
+void UMalAbilitySystemComponent::AbilityInputReleased(FGameplayTag InputTag)
 {
 	for (auto& AbilitySpec : GetActivatableAbilities())
 	{
@@ -44,7 +44,7 @@ void UCharacterAbilitySystemComponent::AbilityInputReleased(FGameplayTag InputTa
 	}
 }
 
-void UCharacterAbilitySystemComponent::AbilityInputHeld(FGameplayTag InputTag)
+void UMalAbilitySystemComponent::AbilityInputHeld(FGameplayTag InputTag)
 {
 	for (auto& AbilitySpec : GetActivatableAbilities())
 	{
