@@ -8,6 +8,7 @@
 #include "InputActionValue.h"
 #include "AbilitySystem/CharacterAbilitySystemComponent.h"
 #include "Character/MyCharacter.h"
+#include "Character/SprintCharacterMovementComponent.h"
 #include "Input/ULEnhancedInputComponent.h"
 
 void ACharacterController::BeginPlay()
@@ -19,12 +20,6 @@ void ACharacterController::BeginPlay()
 	{
 		LocalSubsystem->AddMappingContext(PlayerContext, 0);
 	}
-}
-
-void ACharacterController::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	UpdateSprintSpeedBlend(DeltaSeconds);
 }
 
 void ACharacterController::SetupInputComponent()
@@ -73,16 +68,6 @@ void ACharacterController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	if (const ACharacter* MyCharacter = Cast<ACharacter>(InPawn))
-	{
-		if (const UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement())
-		{
-			DefaultWalkSpeed = Movement->MaxWalkSpeed;
-		}
-		bIsSprinting = false;
-		bIsDeceleratingFromSprint = false;
-		SpeedBlendElapsed = 0.f;
-	}
 }
 
 UCharacterAbilitySystemComponent* ACharacterController::GetASC()
@@ -146,12 +131,9 @@ void ACharacterController::ShiftMoveStarted(const FInputActionValue& InputAction
 		return;
 	}
 
-	if (UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement())
+	if (USprintCharacterMovementComponent* Movement = Cast<USprintCharacterMovementComponent>(MyCharacter->GetCharacterMovement()))
 	{
-		bIsSprinting = true;
-		bIsDeceleratingFromSprint = false;
-		SpeedBlendElapsed = 0.f;
-		Movement->MaxWalkSpeed = SprintSpeed;
+		Movement->SetSprinting(true);
 	}
 }
 
@@ -164,42 +146,9 @@ void ACharacterController::ShiftMoveCompleted(const FInputActionValue& InputActi
 		return;
 	}
 
-	if (UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement())
+	if (USprintCharacterMovementComponent* Movement = Cast<USprintCharacterMovementComponent>(MyCharacter->GetCharacterMovement()))
 	{
-		bIsSprinting = false;
-		bIsDeceleratingFromSprint = true;
-		SpeedBlendElapsed = 0.f;
-		SpeedBlendStart = Movement->MaxWalkSpeed;
-	}
-}
-
-void ACharacterController::UpdateSprintSpeedBlend(float DeltaSeconds)
-{
-	if (!bIsDeceleratingFromSprint || bIsSprinting)
-	{
-		return;
-	}
-
-	ACharacter* MyCharacter = GetPawn<ACharacter>();
-	if (!MyCharacter)
-	{
-		return;
-	}
-
-	UCharacterMovementComponent* Movement = MyCharacter->GetCharacterMovement();
-	if (!Movement)
-	{
-		return;
-	}
-	SpeedBlendElapsed += DeltaSeconds;
-	const float Duration = FMath::Max(SprintStopDuration, KINDA_SMALL_NUMBER);
-	const float Alpha = FMath::Clamp(SpeedBlendElapsed / Duration, 0.f, 1.f);
-	Movement->MaxWalkSpeed = FMath::InterpEaseInOut(SpeedBlendStart, DefaultWalkSpeed, Alpha, 2.f);
-
-	if (Alpha >= 1.f)
-	{
-		Movement->MaxWalkSpeed = DefaultWalkSpeed;
-		bIsDeceleratingFromSprint = false;
+		Movement->SetSprinting(false);
 	}
 }
 
