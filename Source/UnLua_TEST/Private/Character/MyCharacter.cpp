@@ -1,9 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "UnLua_TEST/Public/Character/MyCharacter.h"
 
+#include "Character/SprintCharacterMovementComponent.h"
 #include "Player/CharacterPlayerState.h"
 
-AMyCharacter::AMyCharacter()
+AMyCharacter::AMyCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<USprintCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -65,4 +67,3 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
-

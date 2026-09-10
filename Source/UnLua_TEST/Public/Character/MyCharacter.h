@@ -18,7 +18,7 @@ class UNLUA_TEST_API AMyCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	AMyCharacter();
+	AMyCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	virtual void PossessedBy(AController* NewController) override;
 	UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
